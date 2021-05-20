@@ -1,29 +1,30 @@
 #include <stdio.h>
-#include <iostream>
+#include<bits/stdc++.h>
 
-
-int maxDollar(long N)
+long long maxDollar(long long N, std::unordered_map<long long, long long> &m)
 {
-    int dollar_prev = 0;
-    for(long i=0; i<N; ++i)
-    {
-        dollar_new = dollar_prev / 2 + dollar_prev / 3 + dollar_prev / 4;
-        dollar_prev = std::max(dollar_prev, dollar_new);
-    }
+    if(N == 0) return 0;
+    if(m.find(N) != m.end())
+        return m[N];
 
-    return dollar_prev;
+    long long div2 = maxDollar(N/2, m);
+    long long div3 = maxDollar(N/3, m);
+    long long div4 = maxDollar(N/4, m);
+
+    m[N] = std::max(N, div2 + div3 + div4);
+
+    return m[N];
 }
 
 int main(void)
 {
-    int tc;
+    long long N;
 
-    scanf("%d\n", &tc);
-    for(int i=0; i<tc; ++i)
+    while(scanf("%lld\n", &N)==1)
     {
-        long N;
-        scanf("%ld\n", &N);
-        printf("%d\n", maxDollar(N));
+        std::unordered_map<long long, long long> m;
+        printf("%lld\n", maxDollar(N, m));
     }
     return 0;
 }
+
